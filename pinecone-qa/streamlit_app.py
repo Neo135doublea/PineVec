@@ -20,7 +20,7 @@ query = st.text_input("Enter your query")
 
 if st.button("Submit"):
     # Validate inputs
-    if not openai_api_key or not pinecone_api_key or not pinecone_env or not pinecone_index or not source_doc or not query:
+    if not openai_api_key or not pinecone_api_key or not pinecone_env or not pinecone_index or not query:
         st.warning(f"Please upload the document and provide the missing fields.")
     else:
         try:
@@ -38,7 +38,7 @@ if st.button("Submit"):
             retriever = vectordb.as_retriever()
 
             # Initialize the OpenAI module, load and run the Retrieval Q&A chain
-            llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+            llm = OpenAI(temperature=0, openai_api_key=openai_api_key, model=gpt-4)
             qa = RetrievalQA.from_chain_type(llm, chain_type="stuff", retriever=retriever)
             response = qa.run(query)
             
